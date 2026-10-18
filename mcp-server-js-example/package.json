@@ -1,0 +1,21 @@
+{
+  "name": "mcp-server-js-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "dotenv": "^18.0.8",
+    "octokit": "^5.0.5",
+    "simple-git": "^4.0.2",
+    "zod": "^4.6.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
