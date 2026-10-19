@@ -1,66 +1,69 @@
 # Projects
 
 # Project-1: Projects\mcp-server-js-example:
+It contains a minimal MCP (Model Context Protocol) server example implemented in Node.js. 
+It is intended as a starting point for building a server that exposes a small set of safe, discoverable
+tools to an AI client using the MCP protocol.
 
+## Overview
 
-### How the code works
+Key behaviors implemented by the example server:
 
-1. Configuration: Loads the GitHub token and workspace directory from `.env`.
-2. Validation: Restricts repository names, branch names, and file paths to reduce unsafe operations.
-3. MCP registration: Each `registerTool()` call exposes a function that the AI client can discover and invoke.
-4. Octokit: Executes authenticated GitHub API requests.
-5. simple-git: Runs Git operations inside your local workspace.
-6. Standard I/O transport: Communicates with the MCP client using the MCP protocol.
+1. Configuration: loads secrets and options (GitHub token, workspace directory) from a `.env` file.
+2. Validation: restricts repository names, branch names, and file paths to reduce risky operations.
+3. MCP registration: each `registerTool()` call exposes a function the AI client can discover and invoke.
+4. Octokit: performs authenticated GitHub API requests where needed.
+5. simple-git: runs Git operations inside the configured workspace.
+6. Standard I/O transport: communicates with the MCP client over stdin/stdout.
 
-The server uses an explicit workspace instead of allowing the AI to run arbitrary shell commands or operate on arbitrary directories.
+The server deliberately operates inside an explicit workspace directory and does not allow arbitrary shell execution or unrestricted filesystem access.
 
-## 6. Configure Git authentication
+## Quick start
 
-The code above authenticates GitHub API requests using Octokit. Git commands such as `clone`, `pull`, and `push` use Git's own authentication configuration.
+1. Install dependencies:
 
-For a local development machine, you can use GitHub CLI:
+```bash
+npm install
+Create a .env file in the project root with the required variables. Example:
+env
+GITHUB_TOKEN=ghp_xxx                      # token used by Octokit (use least privilege)
+WORKSPACE_DIR=/path/to/local/workspace     # local directory where repositories will be cloned
+PORT=3000                                  # optional, if your server exposes an HTTP health endpoint
+Never commit tokens to source control. For production, prefer a GitHub App with narrowly scoped permissions.
 
-Install it from [cli.github.com](<https://cli.github.com/?utm_source=chatgpt.com>), then run:
+Configure Git authentication
+This project uses Octokit for GitHub API requests. Git commands such as clone, pull, and push use your Git credential configuration.
+
+For local development, you can authenticate with the GitHub CLI:
 
 bash
-```
+# install: https://cli.github.com
 gh auth login
 gh auth setup-git
-```
-
-Follow the prompts to authenticate your GitHub account. This configures Git to use GitHub CLI credentials on supported setups.
-
-Test authentication:
+Verify authentication:
 
 bash
-```
 gh auth status
 git config --get credential.helper
-```
+The second command may return nothing if your Git installation uses another credential mechanism; that doesn't necessarily indicate a problem.
 
-The second command may return nothing if your Git installation uses a different credential mechanism; that alone doesn't mean authentication is broken.
+Important: never embed a personal access token directly in a repository URL or print it to logs.
 
-Important: Never embed a personal access token directly in a repository URL or print it to logs. For an organization or production deployment, prefer a GitHub App with narrowly scoped permissions.
-
-## 7. Start the server and verify it
-
-From the project directory, run:
+Run the server
+Start the server from the project directory:
 
 bash
-```
 npm start
-```
+The process typically stays running without printing normal application logs — stdin/stdout are used for MCP communication.
 
-The process should stay running without printing normal log messages. That is expected: standard input and output are being used for MCP communication.
-
-To test the available tools interactively, open a second terminal and run:
+Inspecting and testing tools
+Open a second terminal to run the MCP Inspector so you can interactively discover tools and test them:
 
 bash
-```
 npx -y @modelcontextprotocol/inspector node server.js
+The Inspector connects to a local MCP server and lets you explore available tools and their input schemas. Follow the Inspector's displayed instructions if it differs by version.
 ```
-
-The MCP Inspector lets you connect to a local server and inspect its tools and input schemas. If you use a different version of the Inspector, follow its displayed launch instructions.
+Recommended test flow (try these in order):
 
 Try these tools in order:
 
