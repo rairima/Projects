@@ -1,0 +1,32 @@
+{
+  "name": "home",
+  "version": "1.0.1",
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "build:start": "cd dist && PORT=8081 npx serve",
+    "start": "webpack serve --open --mode development",
+    "start:live": "webpack serve --open --mode development --liveReload",
+    "docker:build": "docker build . -t wp5-starter",
+    "docker:run": "docker run -p 8081:8081 wp5-starter"
+  },
+  "dependencies": {
+    "@babel/runtime": "^8.0.7",
+    "bootstrap": "^5.3.8",
+    "react": "^19.3.1",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.7",
+    "@babel/preset-env": "^8.0.7",
+    "@babel/preset-react": "^8.0.1",
+    "babel-loader": "^10.1.1",
+    "css-loader": "^7.1.5",
+    "html-webpack-plugin": "^5.6.8",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.112.2",
+    "webpack-cli": "^7.2.3",
+    "webpack-dev-server": "^6.1.0"
+  }
+}
