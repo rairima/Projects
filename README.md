@@ -80,7 +80,55 @@ Try these tools in order:
 ![alt text](image.png)
 ![alt text](image-1.png)
 
-# Project 2:
+### -------------------------------------------------------
+
+# Project 2: Projects\real-time-chat-app
+This project is a real-time chat application built with a React client and a GraphQL server. It demonstrates live messaging using GraphQL subscriptions and an SSE-based Apollo client connection.
+
+# Overview
+The app has two main parts:
+
+real-time-chat-app/client: React frontend with Bootstrap styling and Apollo GraphQL client
+real-time-chat-app/server: GraphQL Yoga server with in-memory message storage and subscription support
+real-time-chat-app/home-page: landing page for the application
+
+This project also uses Webpack Module Federation to expose the chat application as a remote module and load it from the home page application.
+
+# Features
+Real-time message updates between clients
+User-specific chat bubbles
+Send message form with Enter-to-submit support
+GraphQL query, mutation, and subscription patterns
+Simple in-memory message persistence during runtime
+
+# Tech stack
+React
+Apollo Client
+GraphQL
+GraphQL Yoga
+GraphQL SSE
+Bootstrap
+Webpack
+
+# Run the application
+1. Start the server
+bash
+cd real-time-chat-app/server
+npm install
+npm start
+This starts the GraphQL server on:
+
+http://localhost:4000/graphql
+
+2. Start the client
+bash
+cd ../client
+npm install
+npm start
+This launches the frontend in the browser via the webpack dev server.
+
+# Notes
+The chat app uses a lightweight in-memory array on the server for message storage, so messages are not persisted across server restarts. The frontend listens for message subscriptions and updates the chat view automatically whenever new messages are posted.
 
 # Image Refernces:
 ![alt text](image-2.png)
